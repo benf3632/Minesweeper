@@ -10,26 +10,43 @@ class Cell {
         this.y = y;
         this.w = w;
         this.num = 0;
+        this.flag = false;
+        this.end = false;
     }
 
     show() {
         stroke(0);
         noFill();
         rect(this.x, this.y, this.w, this.w);
-        if (this.reaveled) {
-            
-           if (this.mine) {
+        if (this.flag) {
+            image(flag_img, this.x, this.y);
+            if (this.end) {
+                if (this.mine) {
+                    fill(220);
+                    ellipse(this.x + this.w * 0.5, this.y + this.w * 0.5, this.w * 0.5);
+            } else {
                 fill(220);
-                ellipse(this.x + this.w * 0.5, this.y + this.w * 0.5, this.w * 0.5);
-           } else {
-            fill(220);
-            rect(this.x, this.y, this.w, this.w);
-            if (this.num != 0) {
-                fill(0);
-                text(this.num, this.x + this.w * 0.34, this.y + this.w * 0.7);
+                rect(this.x, this.y, this.w, this.w);
+                if (this.num != 0) {
+                    fill(0);
+                    text(this.num, this.x + this.w * 0.34, this.y + this.w * 0.7);
+                }
             }
-           }
-        }       
+            }
+        }
+        else if (this.reaveled) {
+            if (this.mine) {
+                    fill(220);
+                    ellipse(this.x + this.w * 0.5, this.y + this.w * 0.5, this.w * 0.5);
+            } else {
+                fill(220);
+                rect(this.x, this.y, this.w, this.w);
+                if (this.num != 0) {
+                    fill(0);
+                    text(this.num, this.x + this.w * 0.34, this.y + this.w * 0.7);
+                }
+            }
+        }     
     }
 
     contains(x, y) {
@@ -87,7 +104,12 @@ class Cell {
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < cols; j++) {
                 grid[i][j].reaveled = true;
+                grid[i][j].end = true;
             }
         }
+    }
+
+    setFlag() {
+        this.flag = !this.flag;
     }
 }
